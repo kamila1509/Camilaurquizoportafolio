@@ -1,4 +1,4 @@
-import { Heart, Mail, Github, Linkedin, Twitter } from "lucide-react";
+import { Heart, Mail, Linkedin } from "lucide-react";
 import { motion } from "motion/react";
 
 interface FooterProps {
@@ -27,11 +27,20 @@ export function Footer({ language }: FooterProps) {
 
   const t = content[language];
 
+  const contactEmail = "kamilaw1509@gmail.com";
   const socialLinks = [
-    { icon: Github, label: "GitHub", href: "#", color: "hover:text-foreground" },
-    { icon: Linkedin, label: "LinkedIn", href: "#", color: "hover:text-blue-500" },
-    { icon: Twitter, label: "Twitter", href: "#", color: "hover:text-sky-400" },
-    { icon: Mail, label: "Email", href: "#", color: "hover:text-primary" },
+    {
+      icon: Linkedin,
+      label: "LinkedIn",
+      href: "https://www.linkedin.com/in/camila-urquizo",
+      color: "hover:text-blue-500",
+    },
+    {
+      icon: Mail,
+      label: "Email",
+      href: `mailto:${contactEmail}`,
+      color: "hover:text-primary",
+    },
   ];
 
   return (
@@ -48,14 +57,15 @@ export function Footer({ language }: FooterProps) {
             <h3 className="text-3xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               {t.message}
             </h3>
-            <motion.button
+            <motion.a
+              href={`mailto:${contactEmail}`}
               whileHover={{ scale: 1.05, boxShadow: "var(--shadow-kawaii)" }}
               whileTap={{ scale: 0.95 }}
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-accent text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all"
             >
-              <Mail className="w-5 h-5" />
+              <Mail className="w-5 h-5" aria-hidden />
               {t.contact}
-            </motion.button>
+            </motion.a>
           </div>
 
           {/* Social Links */}
@@ -66,6 +76,8 @@ export function Footer({ language }: FooterProps) {
                 <motion.a
                   key={i}
                   href={social.href}
+                  target={social.href.startsWith("http") ? "_blank" : undefined}
+                  rel={social.href.startsWith("http") ? "noopener noreferrer" : undefined}
                   initial={{ scale: 0, rotate: -180 }}
                   whileInView={{ scale: 1, rotate: 0 }}
                   viewport={{ once: true }}

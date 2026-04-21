@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Heart, Sparkles, Code2, Coffee, Music, Book } from "lucide-react";
+import { Heart, Sparkles, Code2, Book } from "lucide-react";
 
 interface AboutMeProps {
   language: "en" | "es";
@@ -9,69 +9,79 @@ export function AboutMe({ language }: AboutMeProps) {
   const content = {
     en: {
       title: "About Me",
-      intro: "Hello! I'm Camila",
-      description:
-        "I'm a passionate Senior React Developer with over 7 years of experience building beautiful, performant, and user-centric web applications. I love transforming complex problems into elegant solutions through clean code and thoughtful design.",
-      passion: "What I Love",
+      intro: "How I work",
+      workParagraphs: [
+        "I care about building things that not only work today, but that can be maintained and improved over time. I try to keep the app clear for the user even as it grows.",
+        "I also pay attention to when to move fast and when to prioritize quality or experience, depending on the context.",
+        "I like working in sync with design, backend, and QA so the whole story holds from the idea to production.",
+      ],
+      passion: "What I lean on",
       passionItems: [
         {
           icon: Code2,
-          title: "Clean Code",
-          description: "Writing maintainable and scalable solutions",
+          title: "Structure that scales",
+          description: "Frontends that stay legible when business rules grow—types, state boundaries, and patterns the team can share",
         },
         {
           icon: Sparkles,
-          title: "Innovation",
-          description: "Exploring new technologies and best practices",
+          title: "Quality you can see",
+          description: "Tests and automation where they buy confidence, plus signals from production so we’re not guessing",
         },
         {
           icon: Heart,
-          title: "User Experience",
-          description: "Creating delightful interactions",
+          title: "Product in the room",
+          description: "Clear UX in international teams; web and mobile when the product needs both, not one-size-fits-all",
         },
       ],
-      hobbies: "Beyond Coding",
+      hobbies: "Languages",
       hobbiesItems: [
-        { icon: Coffee, text: "Coffee enthusiast ☕" },
-        { icon: Music, text: "Music lover 🎵" },
-        { icon: Book, text: "Continuous learner 📚" },
+        { icon: Book, text: "English — B2, professional working proficiency" },
+        { icon: Heart, text: "Spanish — native" },
       ],
-      values: "My Values",
-      valuesText:
-        "I believe in continuous learning, collaborative teamwork, and building products that make a real difference. Quality over quantity, always.",
+      values: "Beyond the desk",
+      valuesParagraphs: [
+        "I like to really disconnect: working out, going out, and completely changing gears.",
+        "Callie 🐶 is my soft spot—even though she’s far away now, she’s still part of my every day (and of course this page).",
+        "I also enjoy getting out, clearing my head, and keeping a balance between everything I do.",
+      ],
     },
     es: {
-      title: "Sobre Mí",
-      intro: "¡Hola! Soy Camila",
-      description:
-        "Soy una apasionada Desarrolladora Senior de React con más de 7 años de experiencia construyendo aplicaciones web hermosas, eficientes y centradas en el usuario. Me encanta transformar problemas complejos en soluciones elegantes a través de código limpio y diseño cuidadoso.",
-      passion: "Lo Que Amo",
+      title: "Sobre mí",
+      intro: "Cómo trabajo",
+      workParagraphs: [
+        "Me importa construir cosas que no solo funcionen hoy, sino que se puedan mantener y mejorar con el tiempo. Intento que, aunque la aplicación crezca, siga siendo clara para el usuario.",
+        "También tengo en cuenta cuándo ir rápido y cuándo priorizar calidad o experiencia, dependiendo del contexto.",
+        "Me gusta trabajar alineada con diseño, backend y QA para que todo tenga sentido desde la idea hasta que llega a producción.",
+      ],
+      passion: "En qué me apoyo",
       passionItems: [
         {
           icon: Code2,
-          title: "Código Limpio",
-          description: "Escribir soluciones mantenibles y escalables",
+          title: "Estructura que escala",
+          description: "Frontends legibles cuando el dominio se complica: tipos, límites de estado y patrones compartidos en el equipo",
         },
         {
           icon: Sparkles,
-          title: "Innovación",
-          description: "Explorar nuevas tecnologías y mejores prácticas",
+          title: "Calidad con señales",
+          description: "Pruebas y automatización donde aportan confianza, y datos de entorno real para no ir a ciegas",
         },
         {
           icon: Heart,
-          title: "Experiencia de Usuario",
-          description: "Crear interacciones encantadoras",
+          title: "Producto presente",
+          description: "UX clara en equipos internacionales; web y móvil cuando el producto lo pide, sin forzar un solo molde",
         },
       ],
-      hobbies: "Más Allá del Código",
+      hobbies: "Idiomas",
       hobbiesItems: [
-        { icon: Coffee, text: "Entusiasta del café ☕" },
-        { icon: Music, text: "Amante de la música 🎵" },
-        { icon: Book, text: "Aprendiz continua 📚" },
+        { icon: Book, text: "Inglés — B2, nivel profesional" },
+        { icon: Heart, text: "Español — nativo" },
       ],
-      values: "Mis Valores",
-      valuesText:
-        "Creo en el aprendizaje continuo, el trabajo colaborativo en equipo y construir productos que marquen una diferencia real. Calidad sobre cantidad, siempre.",
+      values: "Fuera del código",
+      valuesParagraphs: [
+        "Me gusta desconectar de verdad: entrenar, salir y cambiar completamente el chip.",
+        "Callie 🐶 es mi adoración, aunque ahora la tengo a distancia. Aun así, siempre está presente en mi día a día (y claramente también en esta página).",
+        "También disfruto salir, despejarme y tener ese balance entre todo lo que hago.",
+      ],
     },
   };
 
@@ -155,9 +165,11 @@ export function AboutMe({ language }: AboutMeProps) {
               </motion.div>
               <div>
                 <h3 className="text-3xl mb-2">{t.intro}</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {t.description}
-                </p>
+                <div className="text-muted-foreground leading-relaxed space-y-4">
+                  {t.workParagraphs.map((paragraph, i) => (
+                    <p key={i}>{paragraph}</p>
+                  ))}
+                </div>
               </div>
             </div>
           </motion.div>
@@ -248,13 +260,16 @@ export function AboutMe({ language }: AboutMeProps) {
                     repeat: Infinity,
                   }}
                   className="text-2xl"
+                  aria-hidden
                 >
-                  ⭐
+                  🐶
                 </motion.span>
               </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                {t.valuesText}
-              </p>
+              <div className="text-muted-foreground leading-relaxed space-y-4">
+                {t.valuesParagraphs.map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))}
+              </div>
             </motion.div>
           </motion.div>
         </motion.div>

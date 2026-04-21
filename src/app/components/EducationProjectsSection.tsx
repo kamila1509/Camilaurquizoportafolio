@@ -8,70 +8,84 @@ interface EducationProjectsSectionProps {
 export function EducationProjectsSection({ language }: EducationProjectsSectionProps) {
   const content = {
     en: {
-      title: "Education & Projects",
-      subtitle: "Continuous learning and impactful work",
+      title: "Education & projects",
+      subtitle: "Academic path and product experience aligned with my CV",
+      educationSectionTitle: "Education",
       education: {
-        degree: "Master's Degree in Web Development",
-        school: "Universitat Internacional Valenciana",
-        period: "2020 - 2022",
-        description: "Specialized in modern web architectures, UX design, and full-stack development.",
+        master: {
+          degree: "Master’s Degree in Web Application and Services Development",
+          school: "Universitat Internacional Valenciana (VIU)",
+          detail: "Valencia, Spain · 2024",
+        },
+        bachelor: {
+          degree: "Bachelor’s Degree in Computer Engineering",
+          school: "National University Federico Villarreal (UNFV)",
+          detail: "Lima, Peru",
+        },
       },
-      projectsTitle: "Featured Projects",
+      projectsTitle: "Key product contexts",
       projects: [
         {
-          name: "Mining Monitoring Platform",
+          name: "Insurance management platform",
           description:
-            "Real-time monitoring dashboard for mining operations with data visualization, alerts, and predictive analytics using React, D3.js, and AWS IoT.",
-          tags: ["React", "TypeScript", "D3.js", "AWS", "Real-time"],
-          impact: "Reduced incidents by 35%",
+            "Frontend for insurance operations: quote generation, product configuration, complex workflows. React, TypeScript, Redux, Redux-Saga, Sass, REST, Jest, and Azure DevOps in an international team.",
+          tags: ["React", "TypeScript", "Redux", "Azure DevOps", "Jest"],
+          impact: "K-LAGAN",
         },
         {
-          name: "E-commerce Platform",
+          name: "Mining instrumentation monitoring (SPA)",
           description:
-            "Full-featured e-commerce solution with product catalog, cart, checkout, and admin panel. Built with Next.js and Stripe integration.",
-          tags: ["Next.js", "Redux", "Stripe", "Tailwind"],
-          impact: "500K+ monthly users",
+            "Scalable SPA for monitoring mining instrumentation and operational data: React Query, Context, role-based access, AWS Amplify, JWT, Chart.js, Google Maps, AWS (S3, CloudFront, CodePipeline), Jest/RTL.",
+          tags: ["React", "TypeScript", "Vite", "Tailwind", "AWS", "React Query"],
+          impact: "Start Cloud Peru",
         },
         {
-          name: "Component Library",
+          name: "Nu Skin Vera (skincare & ecommerce app)",
           description:
-            "Design system and reusable component library used across multiple projects. Documented with Storybook and published to npm.",
-          tags: ["React", "Storybook", "Rollup", "TypeScript"],
-          impact: "Used in 8+ projects",
+            "Hybrid mobile work with React Native and related web stack (Vue, Vuetify, Vuex) for a personalized skincare and ecommerce experience for US-based clients, with QA and agile delivery.",
+          tags: ["React Native", "Vue", "JavaScript", "Ecommerce"],
+          impact: "Globant / Nu Skin",
         },
       ],
     },
     es: {
-      title: "Educación y Proyectos",
-      subtitle: "Aprendizaje continuo y trabajo de impacto",
+      title: "Formación y proyectos",
+      subtitle: "Trayectoria académica y productos alineados con mi CV",
+      educationSectionTitle: "Formación",
       education: {
-        degree: "Máster en Desarrollo Web",
-        school: "Universitat Internacional Valenciana",
-        period: "2020 - 2022",
-        description: "Especializada en arquitecturas web modernas, diseño UX y desarrollo full-stack.",
+        master: {
+          degree: "Máster en Desarrollo de Aplicaciones y Servicios Web",
+          school: "Universitat Internacional Valenciana (VIU)",
+          detail: "Valencia, España · 2024",
+        },
+        bachelor: {
+          degree: "Grado en Ingeniería de Computación",
+          school: "Universidad Nacional Federico Villarreal (UNFV)",
+          detail: "Lima, Perú",
+        },
       },
-      projectsTitle: "Proyectos Destacados",
+      projectsTitle: "Contextos de producto",
       projects: [
         {
-          name: "Plataforma Monitoreo Minero",
+          name: "Plataforma de gestión de seguros",
           description:
-            "Dashboard de monitoreo en tiempo real para operaciones mineras con visualización de datos, alertas y análisis predictivo usando React, D3.js y AWS IoT.",
-          tags: ["React", "TypeScript", "D3.js", "AWS", "Tiempo Real"],
-          impact: "Reducción incidentes 35%",
+            "Frontends para operaciones de seguros: cotización, configuración de productos y flujos complejos. React, TypeScript, Redux, Redux-Saga, Sass, REST, Jest y Azure DevOps, en equipo internacional.",
+          tags: ["React", "TypeScript", "Redux", "Azure DevOps", "Jest"],
+          impact: "K-LAGAN",
         },
         {
-          name: "Plataforma E-commerce",
+          name: "Monitoreo de instrumentación minera (SPA)",
           description:
-            "Solución e-commerce completa con catálogo de productos, carrito, checkout y panel admin. Construida con Next.js e integración Stripe.",
-          tags: ["Next.js", "Redux", "Stripe", "Tailwind"],
-          impact: "500K+ usuarios mensuales",
+            "SPA escalable para datos de instrumentación y operación minera: React Query, Context, acceso por roles, AWS Amplify, JWT, Chart.js, Google Maps, AWS (S3, CloudFront, CodePipeline), Jest/RTL.",
+          tags: ["React", "TypeScript", "Vite", "Tailwind", "AWS", "React Query"],
+          impact: "Start Cloud Perú",
         },
         {
-          name: "Librería de Componentes",
+          name: "Nu Skin Vera (app skincare y ecommerce)",
           description:
-            "Sistema de diseño y librería de componentes reutilizables usada en múltiples proyectos. Documentada con Storybook y publicada en npm.",
-          tags: ["React", "Storybook", "Rollup", "TypeScript"],
-          impact: "Usada en 8+ proyectos",
+            "Trabajo en app móvil híbrida con React Native y stack web (Vue, Vuetify, Vuex) para experiencia de skincare y ecommerce hacia clientes en EE. UU., con QA y entrega ágil.",
+          tags: ["React Native", "Vue", "JavaScript", "Ecommerce"],
+          impact: "Globant / Nu Skin",
         },
       ],
     },
@@ -110,17 +124,21 @@ export function EducationProjectsSection({ language }: EducationProjectsSectionP
                 <GraduationCap className="w-8 h-8 text-white" />
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-foreground">Education</h3>
+                <h3 className="text-2xl font-bold text-foreground">{t.educationSectionTitle}</h3>
               </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div>
-                <h4 className="text-xl font-bold text-primary mb-1">{t.education.degree}</h4>
-                <p className="text-foreground/70 font-semibold">{t.education.school}</p>
-                <p className="text-muted-foreground text-sm">{t.education.period}</p>
+                <h4 className="text-lg font-bold text-primary mb-1">{t.education.master.degree}</h4>
+                <p className="text-foreground/70 font-semibold">{t.education.master.school}</p>
+                <p className="text-muted-foreground text-sm">{t.education.master.detail}</p>
               </div>
-              <p className="text-foreground/70 leading-relaxed">{t.education.description}</p>
+              <div>
+                <h4 className="text-lg font-bold text-primary mb-1">{t.education.bachelor.degree}</h4>
+                <p className="text-foreground/70 font-semibold">{t.education.bachelor.school}</p>
+                <p className="text-muted-foreground text-sm">{t.education.bachelor.detail}</p>
+              </div>
 
               {/* Decorative elements */}
               <div className="flex gap-2 pt-4">
@@ -199,8 +217,10 @@ export function EducationProjectsSection({ language }: EducationProjectsSectionP
                     ))}
                   </div>
 
-                  <div className="flex items-center gap-2 text-primary font-semibold">
-                    <span className="text-2xl">🚀</span>
+                  <div className="flex items-center gap-2 text-primary font-semibold text-sm">
+                    <span className="text-xl" aria-hidden>
+                      🏢
+                    </span>
                     <span>{project.impact}</span>
                   </div>
                 </motion.div>
@@ -217,13 +237,25 @@ export function EducationProjectsSection({ language }: EducationProjectsSectionP
           className="mt-12 bg-card rounded-3xl p-8 shadow-lg border border-border"
         >
           <h3 className="text-xl font-bold text-foreground mb-6 text-center">
-            {language === "en" ? "Certifications & Skills" : "Certificaciones y Habilidades"}
+            {language === "en" ? "Other strengths (from CV)" : "Otras fortalezas (del CV)"}
           </h3>
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { icon: "🎯", text: language === "en" ? "Accessibility (a11y)" : "Accesibilidad (a11y)" },
-              { icon: "🔄", text: "CI/CD Pipelines" },
-              { icon: "📊", text: language === "en" ? "Data Visualization" : "Visualización de Datos" },
+              {
+                icon: "☁️",
+                text:
+                  language === "en"
+                    ? "Backend on AWS: Lambda functions with DynamoDB"
+                    : "Backend en AWS: funciones Lambda con DynamoDB",
+              },
+              { icon: "🌐", text: language === "en" ? "Internationalization (e.g. react-intl)" : "Internacionalización (p. ej. react-intl)" },
+              {
+                icon: "🤖",
+                text:
+                  language === "en"
+                    ? "QA automation (Selenium) & observability (Datadog, Google Analytics)"
+                    : "Automatización QA (Selenium) y observabilidad (Datadog, Google Analytics)",
+              },
             ].map((cert, i) => (
               <motion.div
                 key={i}

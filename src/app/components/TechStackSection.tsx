@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Code2, Rocket, Zap, Database, Cloud, TestTube } from "lucide-react";
+import { Code2, Database, Cloud, TestTube } from "lucide-react";
 
 interface TechStackSectionProps {
   language: "en" | "es";
@@ -8,101 +8,117 @@ interface TechStackSectionProps {
 export function TechStackSection({ language }: TechStackSectionProps) {
   const content = {
     en: {
-      title: "Tech Stack",
-      subtitle: "Technologies I love working with",
+      title: "Tech stack",
       categories: [
         {
           title: "Frontend",
           icon: Code2,
           color: "from-pink-400 to-pink-600",
           techs: [
-            { name: "React", icon: "⚛️", level: "Expert" },
-            { name: "TypeScript", icon: "📘", level: "Expert" },
-            { name: "Next.js", icon: "▲", level: "Advanced" },
-            { name: "React Native", icon: "📱", level: "Advanced" },
+            { name: "React (17–18)", icon: "⚛️", level: "" },
+            { name: "TypeScript", icon: "📘", level: "" },
+            { name: "Next.js", icon: "▲", level: "" },
+            { name: "React Native", icon: "📱", level: "" },
+            { name: "Vue.js & Angular", icon: "◆", level: "" },
+            { name: "HTML · CSS · Sass/SCSS", icon: "🎨", level: "" },
           ],
         },
         {
-          title: "State & Data",
+          title: "State & data",
           icon: Database,
           color: "from-purple-400 to-purple-600",
           techs: [
-            { name: "Redux", icon: "🔄", level: "Expert" },
-            { name: "React Query", icon: "🔍", level: "Advanced" },
-            { name: "Zustand", icon: "🐻", level: "Intermediate" },
-            { name: "GraphQL", icon: "◆", level: "Intermediate" },
+            { name: "Redux", icon: "🔄", level: "" },
+            { name: "Redux-Saga", icon: "🧩", level: "" },
+            { name: "Redux Form", icon: "📋", level: "" },
+            { name: "TanStack React Query", icon: "🔍", level: "" },
+            { name: "Zustand", icon: "🐻", level: "" },
           ],
         },
         {
-          title: "Cloud & DevOps",
-          icon: Cloud,
-          color: "from-blue-400 to-blue-600",
-          techs: [
-            { name: "AWS", icon: "☁️", level: "Advanced" },
-            { name: "CI/CD", icon: "🔧", level: "Advanced" },
-            { name: "Docker", icon: "🐳", level: "Intermediate" },
-            { name: "Jenkins", icon: "🤖", level: "Intermediate" },
-          ],
-        },
-        {
-          title: "Testing & Quality",
+          title: "Testing",
           icon: TestTube,
           color: "from-green-400 to-green-600",
           techs: [
-            { name: "Jest", icon: "🃏", level: "Expert" },
-            { name: "Testing Library", icon: "🧪", level: "Expert" },
-            { name: "Cypress", icon: "🌲", level: "Advanced" },
-            { name: "Playwright", icon: "🎭", level: "Intermediate" },
+            { name: "Jest", icon: "🃏", level: "" },
+            { name: "React Testing Library", icon: "🧪", level: "" },
+            { name: "Vitest", icon: "✅", level: "" },
+            { name: "Enzyme", icon: "🔬", level: "" },
+            { name: "Cypress", icon: "🌲", level: "" },
+            { name: "Selenium (QA automation)", icon: "🤖", level: "" },
+          ],
+        },
+        {
+          title: "Tooling, cloud & delivery",
+          icon: Cloud,
+          color: "from-blue-400 to-blue-600",
+          techs: [
+            { name: "Git · GitLab", icon: "🔀", level: "" },
+            { name: "Azure DevOps & CI/CD", icon: "🧰", level: "" },
+            { name: "Vite & Webpack", icon: "📦", level: "" },
+            { name: "Babel, Axios, Fetch API", icon: "🔌", level: "" },
+            { name: "Storybook", icon: "📖", level: "" },
+            { name: "AWS (Amplify, S3, etc.)", icon: "☁️", level: "" },
+            { name: "Datadog", icon: "📈", level: "" },
+            { name: "Google Analytics", icon: "📊", level: "" },
           ],
         },
       ],
     },
     es: {
-      title: "Stack Tecnológico",
-      subtitle: "Tecnologías con las que me encanta trabajar",
+      title: "Stack tecnológico",
       categories: [
         {
           title: "Frontend",
           icon: Code2,
           color: "from-pink-400 to-pink-600",
           techs: [
-            { name: "React", icon: "⚛️", level: "Experto" },
-            { name: "TypeScript", icon: "📘", level: "Experto" },
-            { name: "Next.js", icon: "▲", level: "Avanzado" },
-            { name: "React Native", icon: "📱", level: "Avanzado" },
+            { name: "React (17–18)", icon: "⚛️", level: "" },
+            { name: "TypeScript", icon: "📘", level: "" },
+            { name: "Next.js", icon: "▲", level: "" },
+            { name: "React Native", icon: "📱", level: "" },
+            { name: "Vue.js y Angular", icon: "◆", level: "" },
+            { name: "HTML · CSS · Sass/SCSS", icon: "🎨", level: "" },
           ],
         },
         {
-          title: "Estado & Datos",
+          title: "Estado y datos",
           icon: Database,
           color: "from-purple-400 to-purple-600",
           techs: [
-            { name: "Redux", icon: "🔄", level: "Experto" },
-            { name: "React Query", icon: "🔍", level: "Avanzado" },
-            { name: "Zustand", icon: "🐻", level: "Intermedio" },
-            { name: "GraphQL", icon: "◆", level: "Intermedio" },
+            { name: "Redux", icon: "🔄", level: "" },
+            { name: "Redux-Saga", icon: "🧩", level: "" },
+            { name: "Redux Form", icon: "📋", level: "" },
+            { name: "TanStack React Query", icon: "🔍", level: "" },
+            { name: "Zustand", icon: "🐻", level: "" },
           ],
         },
         {
-          title: "Cloud & DevOps",
-          icon: Cloud,
-          color: "from-blue-400 to-blue-600",
-          techs: [
-            { name: "AWS", icon: "☁️", level: "Avanzado" },
-            { name: "CI/CD", icon: "🔧", level: "Avanzado" },
-            { name: "Docker", icon: "🐳", level: "Intermedio" },
-            { name: "Jenkins", icon: "🤖", level: "Intermedio" },
-          ],
-        },
-        {
-          title: "Testing & Calidad",
+          title: "Testing",
           icon: TestTube,
           color: "from-green-400 to-green-600",
           techs: [
-            { name: "Jest", icon: "🃏", level: "Experto" },
-            { name: "Testing Library", icon: "🧪", level: "Experto" },
-            { name: "Cypress", icon: "🌲", level: "Avanzado" },
-            { name: "Playwright", icon: "🎭", level: "Intermedio" },
+            { name: "Jest", icon: "🃏", level: "" },
+            { name: "React Testing Library", icon: "🧪", level: "" },
+            { name: "Vitest", icon: "✅", level: "" },
+            { name: "Enzyme", icon: "🔬", level: "" },
+            { name: "Cypress", icon: "🌲", level: "" },
+            { name: "Selenium (automatización QA)", icon: "🤖", level: "" },
+          ],
+        },
+        {
+          title: "Herramientas, nube e integración",
+          icon: Cloud,
+          color: "from-blue-400 to-blue-600",
+          techs: [
+            { name: "Git · GitLab", icon: "🔀", level: "" },
+            { name: "Azure DevOps y CI/CD", icon: "🧰", level: "" },
+            { name: "Vite y Webpack", icon: "📦", level: "" },
+            { name: "Babel, Axios, Fetch API", icon: "🔌", level: "" },
+            { name: "Storybook", icon: "📖", level: "" },
+            { name: "AWS (Amplify, S3, etc.)", icon: "☁️", level: "" },
+            { name: "Datadog", icon: "📈", level: "" },
+            { name: "Google Analytics", icon: "📊", level: "" },
           ],
         },
       ],
@@ -164,9 +180,11 @@ export function TechStackSection({ language }: TechStackSectionProps) {
                       className="flex items-center gap-3 p-3 bg-secondary/30 rounded-2xl hover:bg-secondary/50 transition-colors"
                     >
                       <span className="text-2xl">{tech.icon}</span>
-                      <div className="flex-1">
-                        <div className="font-semibold text-foreground">{tech.name}</div>
-                        <div className="text-xs text-muted-foreground">{tech.level}</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-semibold text-foreground text-sm leading-snug">{tech.name}</div>
+                        {tech.level ? (
+                          <div className="text-xs text-muted-foreground">{tech.level}</div>
+                        ) : null}
                       </div>
                       <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
                     </motion.div>
@@ -185,8 +203,29 @@ export function TechStackSection({ language }: TechStackSectionProps) {
           className="mt-12 text-center"
         >
           <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
-            {["Git", "Webpack", "Vite", "Tailwind CSS", "SCSS", "Figma", "Storybook", "Agile/Scrum"].map(
-              (skill, i) => (
+            {(
+              language === "en"
+                ? [
+                    "JavaScript (ES+)",
+                    "Tailwind CSS",
+                    "Sass/SCSS",
+                    "Selenium",
+                    "Datadog & GA",
+                    "react-intl",
+                    "ContentStack (CMS)",
+                    "Agile / Scrum",
+                  ]
+                : [
+                    "JavaScript (ES+)",
+                    "Tailwind CSS",
+                    "Sass/SCSS",
+                    "Selenium",
+                    "Datadog y GA",
+                    "react-intl",
+                    "ContentStack (CMS)",
+                    "Agile / Scrum",
+                  ]
+            ).map((skill, i) => (
                 <motion.span
                   key={i}
                   initial={{ scale: 0 }}
@@ -201,8 +240,7 @@ export function TechStackSection({ language }: TechStackSectionProps) {
                 >
                   {skill}
                 </motion.span>
-              )
-            )}
+              ))}
           </div>
         </motion.div>
       </div>

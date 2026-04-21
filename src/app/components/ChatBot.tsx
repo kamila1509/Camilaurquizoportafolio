@@ -51,31 +51,31 @@ export function ChatBot({ language }: ChatBotProps) {
   const botResponses = {
     en: {
       experience:
-        "I have over 7 years of experience as a Senior React Developer! 💻 I've worked at amazing companies like K-LAGAN, Globant, and Belatrix, building scalable web applications and leading frontend teams. ✨",
+        "I have 7+ years in frontend, mainly React and React Native, with TypeScript, Redux, and REST integration. I’m a Senior React Software Developer at K-LAGAN since 2023. Before that: Start Cloud Peru (mining monitoring SPA, 2022–2023), Globant on Nu Skin Vera (2020–2023), and Belatrix (2019–2020) with Angular, Vue, and web/mobile. 💻",
       technologies:
-        "My superpowers are React, TypeScript, Next.js, and Redux! 🚀 I also work with AWS, React Native for mobile apps, and I love exploring new frontend technologies. What specific tech would you like to know about?",
+        "Stack highlights: React, React Native, Next.js, Vue, Angular, TypeScript, JavaScript, HTML, CSS, Sass. State: Redux, Redux-Saga, React Query, Zustand. Testing: Jest, React Testing Library, Vitest, Cypress, Enzyme, plus QA automation with Selenium. I also work with Google Analytics, Datadog, Git, GitLab, Azure DevOps, Vite, Webpack, Storybook, AWS (Amplify, S3, CloudFront). Ask for detail on any area. 🚀",
       projects:
-        "I've worked on incredible projects! 🌟 Like a mining monitoring platform at Start Cloud Peru, Nu Skin Vera (skincare ecommerce app) at Globant, and insurance platforms at K-LAGAN. Each one taught me something valuable! 💖",
+        "Key contexts: insurance management platform (quotes & product config) at K-LAGAN; mining instrumentation monitoring SPA at Start Cloud Peru; Nu Skin Vera (skincare & ecommerce) with Globant. International clients and full lifecycle delivery. 🌟",
       education:
-        "I have a Master's degree from Universitat Internacional Valenciana and I'm a Systems Engineer from UNFV! 📚 I believe in continuous learning, so I'm always taking courses and staying updated. ✨",
+        "I completed a Master’s in Web Application and Services Development at Universitat Internacional Valenciana (VIU, Valencia, 2024) and my bachelor’s in Computer Engineering at UNFV, Lima, Peru. 📚",
       languages:
-        "I'm fluent in Spanish (native) and English (B2 level)! 🌎 Feel free to chat with me in either language! 💬",
+        "Spanish: native. English: B2, upper-intermediate, professional working proficiency. 🌎",
       default:
-        "That's a great question! 💖 I'd love to tell you more about my journey as a developer. You can ask me about my experience, tech stack, projects, or education! ✨",
+        "Thanks for asking! 💖 You can ask about my experience, stack, project contexts, or education — the answers are aligned with my published CV. ✨",
     },
     es: {
       experience:
-        "¡Tengo más de 7 años de experiencia como Desarrolladora Senior de React! 💻 He trabajado en empresas increíbles como K-LAGAN, Globant y Belatrix, construyendo aplicaciones web escalables y liderando equipos de frontend. ✨",
+        "Tengo más de 7 años en frontend, sobre todo React y React Native, con TypeScript, Redux e integración REST. En K-LAGAN soy Senior React Software Developer desde 2023. Antes: Start Cloud Perú (SPA de monitoreo minero, 2022–2023), Globant en Nu Skin Vera (2020–2023) y Belatrix (2019–2020) con Angular, Vue y web/móvil. 💻",
       technologies:
-        "¡Mis superpoderes son React, TypeScript, Next.js y Redux! 🚀 También trabajo con AWS, React Native para apps móviles, y me encanta explorar nuevas tecnologías frontend. ¿Sobre qué tecnología específica te gustaría saber?",
+        "Stack: React, React Native, Next.js, Vue, Angular, TypeScript, JavaScript, HTML, CSS, Sass. Estado: Redux, Redux-Saga, React Query, Zustand. Testing: Jest, React Testing Library, Vitest, Cypress, Enzyme, y automatización QA con Selenium. También trabajo con Google Analytics, Datadog, Git, GitLab, Azure DevOps, Vite, Webpack, Storybook, AWS (Amplify, S3, CloudFront). Pregúntame por un bloque. 🚀",
       projects:
-        "¡He trabajado en proyectos increíbles! 🌟 Como una plataforma de monitoreo minero en Start Cloud Peru, Nu Skin Vera (app de ecommerce de skincare) en Globant, y plataformas de seguros en K-LAGAN. ¡Cada uno me enseñó algo valioso! 💖",
+        "Contextos clave: plataforma de gestión de seguros (cotización y producto) en K-LAGAN; monitoreo de instrumentación minera en Start Cloud Perú; Nu Skin Vera (skincare y ecommerce) con Globant. Clientes internacionales y entrega de punta a punta. 🌟",
       education:
-        "¡Tengo un Máster de la Universitat Internacional Valenciana y soy Ingeniera de Sistemas por la UNFV! 📚 Creo en el aprendizaje continuo, así que siempre estoy tomando cursos y manteniéndome actualizada. ✨",
+        "Máster en Desarrollo de Aplicaciones y Servicios Web en la VIU (Valencia, 2024) y grado en Ingeniería de Computación en la UNFV, Lima, Perú. 📚",
       languages:
-        "¡Hablo español (nativo) e inglés (nivel B2) con fluidez! 🌎 ¡Siéntete libre de chatear conmigo en cualquier idioma! 💬",
+        "Español: nativo. Inglés: B2, intermedio-alto, nivel profesional. 🌎",
       default:
-        "¡Esa es una gran pregunta! 💖 Me encantaría contarte más sobre mi trayectoria como desarrolladora. ¡Puedes preguntarme sobre mi experiencia, stack tecnológico, proyectos o educación! ✨",
+        "¡Gracias por preguntar! 💖 Puedes preguntar por experiencia, stack, proyectos o formación; las respuestas siguen el CV. ✨",
     },
   };
 
@@ -115,7 +115,11 @@ export function ChatBot({ language }: ChatBotProps) {
       msg.includes("tecnolog") ||
       msg.includes("stack") ||
       msg.includes("herramientas") ||
-      msg.includes("tools")
+      msg.includes("tools") ||
+      msg.includes("selenium") ||
+      msg.includes("datadog") ||
+      msg.includes("analytics") ||
+      msg.includes("analítica")
     ) {
       return responses.technologies;
     } else if (

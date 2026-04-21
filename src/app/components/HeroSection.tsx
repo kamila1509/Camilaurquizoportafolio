@@ -2,6 +2,7 @@ import { Download, Sparkles, Heart } from "lucide-react";
 import { motion } from "motion/react";
 import callieImg from "../../imports/callie.png";
 import profileImg from "../../imports/me.png";
+import cvPdfUrl from "../../imports/K-LAGAN- REACT DEV_Camila Urquizo.pdf?url";
 
 interface HeroSectionProps {
   language: "en" | "es";
@@ -12,25 +13,29 @@ export function HeroSection({ language }: HeroSectionProps) {
     en: {
       greeting: "Hi there! I'm",
       name: "Camila Urquizo",
-      title: "Senior React Developer",
-      subtitle: "Crafting Beautiful & Performant Web Experiences",
+      title: "Frontend Developer (React)",
+      subtitle: "Building intuitive, well-thought-out digital products",
       description:
-        "7+ years building scalable applications with React, TypeScript, and modern web technologies. Passionate about clean code, accessibility, and delightful user experiences.",
+        "I have 7 years of experience in software development, working mainly with React and modern technologies across the frontend ecosystem. I also bring QA experience, including test automation with Selenium, and I work with analytics and observability tools such as Google Analytics and Datadog. I focus on clear, accessible, and maintainable interfaces, from code quality to how we measure and monitor products.",
+      description2:
+        "I'm interested in growing further in frontend architecture and in the use of artificial intelligence applied to development.",
       cta: "Download CV",
       experience: "7+ Years",
-      projects: "50+ Projects",
+      projects: "International projects",
       tech: "20+ Technologies",
     },
     es: {
       greeting: "¡Hola! Soy",
       name: "Camila Urquizo",
-      title: "Desarrolladora React Senior",
-      subtitle: "Creando Experiencias Web Hermosas y Eficientes",
+      title: "Desarrolladora Frontend (React)",
+      subtitle: "Construyendo productos digitales intuitivos y bien pensados",
       description:
-        "Más de 7 años construyendo aplicaciones escalables con React, TypeScript y tecnologías web modernas. Apasionada por el código limpio, accesibilidad y experiencias de usuario encantadoras.",
+        "Cuento con 7 años de experiencia en desarrollo de software, trabajando principalmente con React y tecnologías modernas del ecosistema frontend. También tengo experiencia en el ámbito de QA, con automatización de pruebas usando Selenium, y con analítica y observabilidad usando herramientas como Google Analytics y Datadog. Me enfoco en interfaces claras, accesibles y mantenibles, desde la calidad del código hasta cómo medimos y monitoreamos el producto.",
+      description2:
+        "Me interesa seguir creciendo en arquitectura frontend y en el uso de inteligencia artificial aplicada al desarrollo.",
       cta: "Descargar CV",
       experience: "7+ Años",
-      projects: "50+ Proyectos",
+      projects: "Proyectos internacionales",
       tech: "20+ Tecnologías",
     },
   };
@@ -107,24 +112,28 @@ export function HeroSection({ language }: HeroSectionProps) {
               <p className="text-xl text-primary font-semibold">{t.subtitle}</p>
             </div>
 
-            <p className="text-lg text-foreground/70 leading-relaxed">
-              {t.description}
-            </p>
+            <div className="text-lg text-foreground/70 leading-relaxed space-y-4">
+              <p>{t.description}</p>
+              <p>{t.description2}</p>
+            </div>
 
-            <motion.button
+            <motion.a
+              href={cvPdfUrl}
+              download="Camila-Urquizo-CV.pdf"
               whileHover={{ scale: 1.05, boxShadow: "0 12px 40px rgba(255, 137, 192, 0.4)" }}
               whileTap={{ scale: 0.95 }}
               className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary to-accent text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all"
+              aria-label={language === "en" ? "Download CV as PDF" : "Descargar CV en PDF"}
             >
-              <Download className="w-5 h-5" />
+              <Download className="w-5 h-5" aria-hidden />
               {t.cta}
-            </motion.button>
+            </motion.a>
 
             {/* Stats */}
             <div className="flex gap-6 pt-6">
               {[
                 { label: t.experience, icon: "💼" },
-                { label: t.projects, icon: "🚀" },
+                { label: t.projects, icon: "🌍" },
                 { label: t.tech, icon: "⚡" },
               ].map((stat, i) => (
                 <motion.div

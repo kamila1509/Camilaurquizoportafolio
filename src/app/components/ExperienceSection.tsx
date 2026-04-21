@@ -10,61 +10,109 @@ export function ExperienceSection({ language }: ExperienceSectionProps) {
   const content = {
     en: {
       title: "Work Experience",
-      subtitle: "Building amazing products at top companies",
+      subtitle: "Web, mobile, and insurance — including QA automation and product analytics",
       experiences: [
         {
           company: "K-LAGAN",
-          position: "Senior React Developer",
-          period: "2021 - Present",
+          position: "React Software Developer",
+          period: "2023 - Present",
           description:
-            "Leading frontend architecture, implementing CI/CD pipelines, and mentoring junior developers. Focus on scalable React applications with TypeScript and AWS integration.",
-          achievements: ["Led team of 5 developers", "Reduced build time by 40%", "Implemented E2E testing"],
+            "Scalable frontends for an insurance management platform: quotes, product configuration, and complex flows. React, TypeScript, Redux and Redux-Saga, Sass, accessible UIs, REST (Axios), Jest, and collaboration in Azure DevOps CI/CD. I also use Google Analytics and Datadog to understand usage and system health in production.",
+          achievements: [
+            "Async business logic with Redux-Saga",
+            "Quality with unit and integration tests",
+            "Analytics & observability: Google Analytics, Datadog; strong release discipline in CI/CD",
+          ],
         },
         {
-          company: "Globant",
-          position: "React Developer",
-          period: "2019 - 2021",
+          company: "Start Cloud Peru",
+          position: "Frontend Developer (freelance)",
+          period: "2022 - 2023",
           description:
-            "Developed enterprise-level web applications for international clients. Specialized in React, Redux, and performance optimization.",
-          achievements: ["Built 10+ client projects", "Performance boost 60%", "Established code standards"],
+            "Single-page app for mining instrumentation and operational data: React, TypeScript, Vite, Tailwind, TanStack React Query, Context, role-based access and auth with AWS Amplify and JWT, dashboards and charts (Chart.js), maps (Google Maps), CI/CD on AWS (S3, CloudFront, CodePipeline).",
+          achievements: [
+            "Data viz: dashboards, time series, geospatial views",
+            "Workflows for alerts, instruments, and reports",
+            "Testing with Jest and React Testing Library",
+          ],
+        },
+        {
+          company: "Globant (Nu Skin International)",
+          position: "Frontend Developer",
+          period: "2020 - 2023",
+          description:
+            "Nu Skin Vera: hybrid mobile app for personalized skincare and ecommerce (React Native, Vue, Vuetify, Vuex). Features for skin consultation, recommendations, and progress; product catalog; agile delivery for US-based clients, with testing and QA.",
+          achievements: [
+            "React Native and web stacks for the same product",
+            "APIs for personalized experiences and catalog",
+            "Ecommerce and engagement-focused UI work",
+          ],
         },
         {
           company: "Belatrix",
           position: "Frontend Developer",
-          period: "2017 - 2019",
+          period: "2019 - 2020",
           description:
-            "Started journey in professional web development, building responsive UIs and learning modern JavaScript frameworks.",
-          achievements: ["Delivered 15+ features", "Mobile-first approach", "Accessibility champion"],
+            "Ecommerce in the health sector, SSR insurance app (Angular 8, Node.js), and hands-on work in the QA space: functional testing plus test automation with Selenium. Participation in the Nu Skin project with web + mobile hybrid work. UI integration with backend services end-to-end.",
+          achievements: [
+            "Angular 8, Vue.js, Vuetify, Vuex, Jest",
+            "QA: functional testing and automation with Selenium",
+            "End-to-end delivery with development and testing",
+          ],
         },
       ],
     },
     es: {
-      title: "Experiencia Laboral",
-      subtitle: "Construyendo productos increíbles en empresas líderes",
+      title: "Experiencia laboral",
+      subtitle: "Web, móvil y seguros — incl. automatización QA y analítica de producto",
       experiences: [
         {
           company: "K-LAGAN",
-          position: "Desarrolladora React Senior",
-          period: "2021 - Presente",
+          position: "React Software Developer",
+          period: "2023 - Presente",
           description:
-            "Liderando arquitectura frontend, implementando pipelines CI/CD y mentoreando desarrolladores junior. Enfoque en aplicaciones React escalables con TypeScript e integración AWS.",
-          achievements: ["Lideré equipo de 5 devs", "Reduje build time 40%", "Implementé testing E2E"],
+            "Frontends escalables para una plataforma de gestión de seguros: cotizaciones, configuración de productos y flujos complejos. React, TypeScript, Redux y Redux-Saga, Sass, UI accesible, REST (Axios), Jest y colaboración en CI/CD con Azure DevOps. Uso de Google Analytics y Datadog para analítica de uso y salud de sistemas en producción.",
+          achievements: [
+            "Lógica asíncrona de negocio con Redux-Saga",
+            "Calidad con pruebas unitarias e integración",
+            "Analítica y observabilidad: Google Analytics, Datadog; despliegues con rigor en CI/CD",
+          ],
         },
         {
-          company: "Globant",
-          position: "Desarrolladora React",
-          period: "2019 - 2021",
+          company: "Start Cloud Peru",
+          position: "Desarrolladora frontend (freelance)",
+          period: "2022 - 2023",
           description:
-            "Desarrollé aplicaciones web empresariales para clientes internacionales. Especializada en React, Redux y optimización de rendimiento.",
-          achievements: ["Construí 10+ proyectos", "Performance boost 60%", "Establecí estándares código"],
+            "Aplicación de una sola página para instrumentación minera y datos operativos: React, TypeScript, Vite, Tailwind, TanStack React Query, Context, acceso por roles y autenticación con AWS Amplify y JWT, dashboards y gráficos (Chart.js), mapas (Google Maps), CI/CD en AWS (S3, CloudFront, CodePipeline).",
+          achievements: [
+            "Visualización: dashboards, series temporales, vistas geoespaciales",
+            "Flujos de alertas, instrumentos e informes",
+            "Pruebas con Jest y React Testing Library",
+          ],
+        },
+        {
+          company: "Globant (Nu Skin International)",
+          position: "Desarrolladora frontend",
+          period: "2020 - 2023",
+          description:
+            "Nu Skin Vera: app móvil híbrida de skincare y ecommerce (React Native, Vue, Vuetify, Vuex). Funcionalidades de consulta de piel, recomendaciones y seguimiento; catálogo; entrega ágil para clientes en EE. UU., con pruebas y QA.",
+          achievements: [
+            "React Native y web para el mismo producto",
+            "APIs para experiencias personalizadas y catálogo",
+            "Ecommerce e interfaz orientada al engagement",
+          ],
         },
         {
           company: "Belatrix",
-          position: "Desarrolladora Frontend",
-          period: "2017 - 2019",
+          position: "Desarrolladora frontend",
+          period: "2019 - 2020",
           description:
-            "Inicié mi trayectoria en desarrollo web profesional, construyendo UIs responsivas y aprendiendo frameworks JavaScript modernos.",
-          achievements: ["Entregué 15+ features", "Enfoque mobile-first", "Champion accesibilidad"],
+            "Ecommerce en el sector salud, aplicación de seguros con SSR (Angular 8, Node.js) y trabajo en el ámbito de QA: pruebas funcionales y automatización con Selenium. Participación en el proyecto Nu Skin con híbrido web y móvil. Integración de interfaces con servicios backend de punta a punta.",
+          achievements: [
+            "Angular 8, Vue.js, Vuetify, Vuex, Jest",
+            "QA: pruebas funcionales y automatización con Selenium",
+            "Entrega de punta a punta con desarrollo y pruebas",
+          ],
         },
       ],
     },

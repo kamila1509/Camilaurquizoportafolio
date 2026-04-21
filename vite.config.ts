@@ -3,27 +3,26 @@ import path from 'path'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 
-
-function figmaAssetResolver() {
-  return {
-    name: 'figma-asset-resolver',
-    resolveId(id) {
-      if (id.startsWith('figma:asset/')) {
-        const filename = id.replace('figma:asset/', '')
-        return path.resolve(__dirname, 'src/assets', filename)
-      }
-    },
+/** Project pages use /repoName/. A user.github.io repo is served at domain root, so base is /. Set VITE_BASE to override. */
+function githubPagesBase(): string {
+  const explicit = process.env.VITE_BASE?.trim()
+  if (explicit) {
+    return explicit.startsWith('/') ? (explicit.endsWith('/') ? explicit : `${explicit}/`) : `/${explicit}/`
   }
+  const full = process.env.GITHUB_REPOSITORY
+  if (!full) return '/'
+  const [owner, repo] = full.split('/')
+  if (!owner || !repo) return '/'
+  if (repo.toLowerCase() === `${owner.toLowerCase()}.github.io`) {
+    return '/'
+  }
+  return `/${repo}/`
 }
 
 export default defineConfig({
-  plugins: [
-    figmaAssetResolver(),
-    // The React and Tailwind plugins are both required for Make, even if
-    // Tailwind is not being actively used – do not remove them
-    react(),
-    tailwindcss(),
-  ],
+  // Required so asset URLs (JS, images, PDF) resolve on GitHub Pages subpaths
+  base: githubPagesBase(),
+  plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
       // Alias @ to the src directory
@@ -32,5 +31,5 @@ export default defineConfig({
   },
 
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
-  assetsInclude: ['**/*.svg', '**/*.csv'],
+  assetsInclude: ['**/*.svg', '**/*.csv', '**/*.pdf'],
 })
