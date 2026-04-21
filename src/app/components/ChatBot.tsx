@@ -1,0 +1,363 @@
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { X, Send, Sparkles } from "lucide-react";
+import callieImg from "../../imports/callie.png";
+
+interface ChatBotProps {
+  language: "en" | "es";
+}
+
+interface Message {
+  id: string;
+  text: string;
+  sender: "user" | "bot";
+  timestamp: Date;
+}
+
+export function ChatBot({ language }: ChatBotProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [inputValue, setInputValue] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const content = {
+    en: {
+      title: "Chat with Cami AI",
+      placeholder: "Ask me anything...",
+      greeting:
+        "Hi! I'm Cami AI! ✨ I can tell you about my experience, skills, and projects. What would you like to know?",
+      suggestions: [
+        "Tell me about your experience",
+        "What technologies do you use?",
+        "What projects have you worked on?",
+      ],
+    },
+    es: {
+      title: "Chat con Cami AI",
+      placeholder: "Pregúntame lo que quieras...",
+      greeting:
+        "¡Hola! Soy Cami AI! ✨ Puedo contarte sobre mi experiencia, habilidades y proyectos. ¿Qué te gustaría saber?",
+      suggestions: [
+        "Cuéntame sobre tu experiencia",
+        "¿Qué tecnologías usas?",
+        "¿En qué proyectos has trabajado?",
+      ],
+    },
+  };
+
+  const t = content[language];
+
+  const botResponses = {
+    en: {
+      experience:
+        "I have over 7 years of experience as a Senior React Developer! 💻 I've worked at amazing companies like K-LAGAN, Globant, and Belatrix, building scalable web applications and leading frontend teams. ✨",
+      technologies:
+        "My superpowers are React, TypeScript, Next.js, and Redux! 🚀 I also work with AWS, React Native for mobile apps, and I love exploring new frontend technologies. What specific tech would you like to know about?",
+      projects:
+        "I've worked on incredible projects! 🌟 Like a mining monitoring platform at Start Cloud Peru, Nu Skin Vera (skincare ecommerce app) at Globant, and insurance platforms at K-LAGAN. Each one taught me something valuable! 💖",
+      education:
+        "I have a Master's degree from Universitat Internacional Valenciana and I'm a Systems Engineer from UNFV! 📚 I believe in continuous learning, so I'm always taking courses and staying updated. ✨",
+      languages:
+        "I'm fluent in Spanish (native) and English (B2 level)! 🌎 Feel free to chat with me in either language! 💬",
+      default:
+        "That's a great question! 💖 I'd love to tell you more about my journey as a developer. You can ask me about my experience, tech stack, projects, or education! ✨",
+    },
+    es: {
+      experience:
+        "¡Tengo más de 7 años de experiencia como Desarrolladora Senior de React! 💻 He trabajado en empresas increíbles como K-LAGAN, Globant y Belatrix, construyendo aplicaciones web escalables y liderando equipos de frontend. ✨",
+      technologies:
+        "¡Mis superpoderes son React, TypeScript, Next.js y Redux! 🚀 También trabajo con AWS, React Native para apps móviles, y me encanta explorar nuevas tecnologías frontend. ¿Sobre qué tecnología específica te gustaría saber?",
+      projects:
+        "¡He trabajado en proyectos increíbles! 🌟 Como una plataforma de monitoreo minero en Start Cloud Peru, Nu Skin Vera (app de ecommerce de skincare) en Globant, y plataformas de seguros en K-LAGAN. ¡Cada uno me enseñó algo valioso! 💖",
+      education:
+        "¡Tengo un Máster de la Universitat Internacional Valenciana y soy Ingeniera de Sistemas por la UNFV! 📚 Creo en el aprendizaje continuo, así que siempre estoy tomando cursos y manteniéndome actualizada. ✨",
+      languages:
+        "¡Hablo español (nativo) e inglés (nivel B2) con fluidez! 🌎 ¡Siéntete libre de chatear conmigo en cualquier idioma! 💬",
+      default:
+        "¡Esa es una gran pregunta! 💖 Me encantaría contarte más sobre mi trayectoria como desarrolladora. ¡Puedes preguntarme sobre mi experiencia, stack tecnológico, proyectos o educación! ✨",
+    },
+  };
+
+  const responses = botResponses[language];
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  useEffect(() => {
+    if (isOpen && messages.length === 0) {
+      const greetingMessage: Message = {
+        id: Date.now().toString(),
+        text: t.greeting,
+        sender: "bot",
+        timestamp: new Date(),
+      };
+      setMessages([greetingMessage]);
+    }
+  }, [isOpen]);
+
+  const getBotResponse = (userMessage: string): string => {
+    const msg = userMessage.toLowerCase();
+
+    if (
+      msg.includes("experiencia") ||
+      msg.includes("experience") ||
+      msg.includes("trabajo") ||
+      msg.includes("work")
+    ) {
+      return responses.experience;
+    } else if (
+      msg.includes("tecnolog") ||
+      msg.includes("stack") ||
+      msg.includes("herramientas") ||
+      msg.includes("tools")
+    ) {
+      return responses.technologies;
+    } else if (
+      msg.includes("proyecto") ||
+      msg.includes("project") ||
+      msg.includes("portfolio")
+    ) {
+      return responses.projects;
+    } else if (
+      msg.includes("educación") ||
+      msg.includes("education") ||
+      msg.includes("estudios") ||
+      msg.includes("master")
+    ) {
+      return responses.education;
+    } else if (
+      msg.includes("idioma") ||
+      msg.includes("language") ||
+      msg.includes("inglés") ||
+      msg.includes("english")
+    ) {
+      return responses.languages;
+    } else {
+      return responses.default;
+    }
+  };
+
+  const handleSend = () => {
+    if (!inputValue.trim()) return;
+
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      text: inputValue,
+      sender: "user",
+      timestamp: new Date(),
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    setInputValue("");
+    setIsTyping(true);
+
+    setTimeout(() => {
+      const botReply: Message = {
+        id: (Date.now() + 1).toString(),
+        text: getBotResponse(inputValue),
+        sender: "bot",
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, botReply]);
+      setIsTyping(false);
+    }, 1500);
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setInputValue(suggestion);
+  };
+
+  return (
+    <>
+      {/* Floating Action Button with Callie */}
+      <motion.button
+        whileHover={{ scale: 1.1, y: -5 }}
+        whileTap={{ scale: 0.9 }}
+        onClick={() => setIsOpen(!isOpen)}
+        className="fixed bottom-8 left-8 z-50 p-3 bg-white dark:bg-card rounded-full shadow-lg border-4 border-primary"
+        style={{
+          boxShadow: "0 8px 32px rgba(255, 110, 199, 0.4)",
+        }}
+      >
+        <motion.img
+          src={callieImg}
+          alt="Callie"
+          className="w-16 h-16 dark:drop-shadow-[0_0_15px_rgba(255,110,199,0.8)]"
+          animate={{
+            y: [0, -5, 0],
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+          }}
+        />
+      </motion.button>
+
+      {/* Chat Window */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            className="fixed bottom-28 left-8 z-50 w-[380px] h-[600px] bg-card/95 backdrop-blur-xl rounded-[2rem] border-2 border-border shadow-kawaii overflow-hidden flex flex-col"
+          >
+            {/* Header */}
+            <div className="p-6 bg-gradient-to-r from-primary to-accent text-white relative">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  {/* Callie Avatar */}
+                  <motion.div
+                    animate={{
+                      rotate: [0, 10, -10, 0],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                    }}
+                    className="w-12 h-12 bg-white rounded-full flex items-center justify-center p-1"
+                  >
+                    <img
+                      src={callieImg}
+                      alt="Callie"
+                      className="w-full h-full dark:drop-shadow-[0_0_10px_rgba(255,110,199,0.6)]"
+                    />
+                  </motion.div>
+                  <div>
+                    <h3 className="font-medium">{t.title}</h3>
+                    <div className="flex items-center gap-1 text-xs opacity-90">
+                      <motion.div
+                        animate={{
+                          scale: [1, 1.3, 1],
+                        }}
+                        transition={{
+                          duration: 1.5,
+                          repeat: Infinity,
+                        }}
+                        className="w-2 h-2 bg-green-300 rounded-full"
+                      />
+                      Online
+                    </div>
+                  </div>
+                </div>
+                <motion.button
+                  whileHover={{ rotate: 90 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => setIsOpen(false)}
+                  className="p-2 hover:bg-white/20 rounded-full transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </motion.button>
+              </div>
+            </div>
+
+            {/* Messages Area */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              {messages.map((message) => (
+                <motion.div
+                  key={message.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`flex ${
+                    message.sender === "user" ? "justify-end" : "justify-start"
+                  }`}
+                >
+                  <div
+                    className={`max-w-[80%] p-4 rounded-2xl ${
+                      message.sender === "user"
+                        ? "bg-gradient-to-br from-primary to-accent text-white rounded-br-md"
+                        : "bg-secondary/50 text-foreground rounded-bl-md border border-border"
+                    }`}
+                  >
+                    <p className="text-sm leading-relaxed">{message.text}</p>
+                  </div>
+                </motion.div>
+              ))}
+
+              {isTyping && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex justify-start"
+                >
+                  <div className="bg-secondary/50 p-4 rounded-2xl rounded-bl-md border border-border">
+                    <div className="flex gap-2">
+                      {[0, 1, 2].map((i) => (
+                        <motion.div
+                          key={i}
+                          animate={{
+                            scale: [1, 1.3, 1],
+                            opacity: [0.5, 1, 0.5],
+                          }}
+                          transition={{
+                            duration: 1,
+                            repeat: Infinity,
+                            delay: i * 0.2,
+                          }}
+                          className="w-2 h-2 bg-primary rounded-full"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Suggestions */}
+              {messages.length === 1 && !isTyping && (
+                <div className="space-y-2 pt-4">
+                  <p className="text-xs text-muted-foreground text-center mb-3">
+                    {language === "en" ? "Quick suggestions:" : "Sugerencias rápidas:"}
+                  </p>
+                  {t.suggestions.map((suggestion, idx) => (
+                    <motion.button
+                      key={idx}
+                      whileHover={{ scale: 1.02, x: 5 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => handleSuggestionClick(suggestion)}
+                      className="w-full p-3 text-sm text-left bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl border border-border/50 hover:border-primary/50 transition-colors"
+                    >
+                      <Sparkles className="w-3 h-3 inline mr-2 text-primary" />
+                      {suggestion}
+                    </motion.button>
+                  ))}
+                </div>
+              )}
+
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Input Area */}
+            <div className="p-4 border-t border-border bg-background/50">
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyPress={(e) => e.key === "Enter" && handleSend()}
+                  placeholder={t.placeholder}
+                  className="flex-1 px-4 py-3 rounded-full bg-input-background border border-border focus:border-primary focus:outline-none transition-colors"
+                />
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleSend}
+                  disabled={!inputValue.trim()}
+                  className="p-3 bg-gradient-to-br from-primary to-accent text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <Send className="w-5 h-5" />
+                </motion.button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
