@@ -14,7 +14,16 @@ interface Message {
   timestamp: Date;
 }
 
+/** Public Gradio Space; override with VITE_GRADIO_CHAT_URL, or set that var to "" for local keyword chat only. */
+const GRADIO_CHAT_DEFAULT =
+  "https://kamilaw1509-carrer-conversation.hf.space";
+
 export function ChatBot({ language }: ChatBotProps) {
+  const gradioEmbedUrl = (
+    import.meta.env.VITE_GRADIO_CHAT_URL ?? GRADIO_CHAT_DEFAULT
+  ).trim();
+  const useGradioEmbed = gradioEmbedUrl.length > 0;
+
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
@@ -24,6 +33,7 @@ export function ChatBot({ language }: ChatBotProps) {
   const content = {
     en: {
       title: "Chat with Cami AI",
+      gradioTitle: "Chat with Camila",
       placeholder: "Ask me anything...",
       greeting:
         "Hi! I'm Cami AI! ✨ I can tell you about my experience, skills, and projects. What would you like to know?",
@@ -35,6 +45,7 @@ export function ChatBot({ language }: ChatBotProps) {
     },
     es: {
       title: "Chat con Cami AI",
+      gradioTitle: "Chat con Camila",
       placeholder: "Pregúntame lo que quieras...",
       greeting:
         "¡Hola! Soy Cami AI! ✨ Puedo contarte sobre mi experiencia, habilidades y proyectos. ¿Qué te gustaría saber?",
@@ -90,6 +101,7 @@ export function ChatBot({ language }: ChatBotProps) {
   }, [messages]);
 
   useEffect(() => {
+    if (useGradioEmbed) return;
     if (isOpen && messages.length === 0) {
       const greetingMessage: Message = {
         id: Date.now().toString(),
@@ -99,7 +111,7 @@ export function ChatBot({ language }: ChatBotProps) {
       };
       setMessages([greetingMessage]);
     }
-  }, [isOpen]);
+  }, [isOpen, useGradioEmbed]);
 
   const getBotResponse = (userMessage: string): string => {
     const msg = userMessage.toLowerCase();
@@ -211,7 +223,9 @@ export function ChatBot({ language }: ChatBotProps) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="fixed bottom-28 left-8 z-50 w-[380px] h-[600px] bg-card/95 backdrop-blur-xl rounded-[2rem] border-2 border-border shadow-kawaii overflow-hidden flex flex-col"
+            className={`fixed bottom-28 left-8 z-50 w-[380px] bg-card/95 backdrop-blur-xl rounded-[2rem] border-2 border-border shadow-kawaii overflow-hidden flex flex-col ${
+              useGradioEmbed ? "h-[640px]" : "h-[600px]"
+            }`}
           >
             {/* Header */}
             <div className="p-6 bg-gradient-to-r from-primary to-accent text-white relative">
@@ -235,7 +249,9 @@ export function ChatBot({ language }: ChatBotProps) {
                     />
                   </motion.div>
                   <div>
-                    <h3 className="font-medium">{t.title}</h3>
+                    <h3 className="font-medium">
+                      {useGradioEmbed ? t.gradioTitle : t.title}
+                    </h3>
                     <div className="flex items-center gap-1 text-xs opacity-90">
                       <motion.div
                         animate={{
@@ -262,103 +278,119 @@ export function ChatBot({ language }: ChatBotProps) {
               </div>
             </div>
 
-            {/* Messages Area */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {messages.map((message) => (
-                <motion.div
-                  key={message.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`flex ${
-                    message.sender === "user" ? "justify-end" : "justify-start"
-                  }`}
-                >
-                  <div
-                    className={`max-w-[80%] p-4 rounded-2xl ${
-                      message.sender === "user"
-                        ? "bg-gradient-to-br from-primary to-accent text-white rounded-br-md"
-                        : "bg-secondary/50 text-foreground rounded-bl-md border border-border"
-                    }`}
-                  >
-                    <p className="text-sm leading-relaxed">{message.text}</p>
-                  </div>
-                </motion.div>
-              ))}
+            {useGradioEmbed ? (
+              <div className="flex-1 flex flex-col min-h-0 bg-muted/30">
+                <iframe
+                  src={gradioEmbedUrl}
+                  title={t.gradioTitle}
+                  className="w-full flex-1 min-h-[520px] border-0 bg-background"
+                  loading="lazy"
+                  allow="clipboard-read; clipboard-write"
+                />
+              </div>
+            ) : (
+              <>
+                {/* Messages Area */}
+                <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                  {messages.map((message) => (
+                    <motion.div
+                      key={message.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className={`flex ${
+                        message.sender === "user" ? "justify-end" : "justify-start"
+                      }`}
+                    >
+                      <div
+                        className={`max-w-[80%] p-4 rounded-2xl ${
+                          message.sender === "user"
+                            ? "bg-gradient-to-br from-primary to-accent text-white rounded-br-md"
+                            : "bg-secondary/50 text-foreground rounded-bl-md border border-border"
+                        }`}
+                      >
+                        <p className="text-sm leading-relaxed">{message.text}</p>
+                      </div>
+                    </motion.div>
+                  ))}
 
-              {isTyping && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="flex justify-start"
-                >
-                  <div className="bg-secondary/50 p-4 rounded-2xl rounded-bl-md border border-border">
-                    <div className="flex gap-2">
-                      {[0, 1, 2].map((i) => (
-                        <motion.div
-                          key={i}
-                          animate={{
-                            scale: [1, 1.3, 1],
-                            opacity: [0.5, 1, 0.5],
-                          }}
-                          transition={{
-                            duration: 1,
-                            repeat: Infinity,
-                            delay: i * 0.2,
-                          }}
-                          className="w-2 h-2 bg-primary rounded-full"
-                        />
+                  {isTyping && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="flex justify-start"
+                    >
+                      <div className="bg-secondary/50 p-4 rounded-2xl rounded-bl-md border border-border">
+                        <div className="flex gap-2">
+                          {[0, 1, 2].map((i) => (
+                            <motion.div
+                              key={i}
+                              animate={{
+                                scale: [1, 1.3, 1],
+                                opacity: [0.5, 1, 0.5],
+                              }}
+                              transition={{
+                                duration: 1,
+                                repeat: Infinity,
+                                delay: i * 0.2,
+                              }}
+                              className="w-2 h-2 bg-primary rounded-full"
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* Suggestions */}
+                  {messages.length === 1 && !isTyping && (
+                    <div className="space-y-2 pt-4">
+                      <p className="text-xs text-muted-foreground text-center mb-3">
+                        {language === "en"
+                          ? "Quick suggestions:"
+                          : "Sugerencias rápidas:"}
+                      </p>
+                      {t.suggestions.map((suggestion, idx) => (
+                        <motion.button
+                          key={idx}
+                          whileHover={{ scale: 1.02, x: 5 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => handleSuggestionClick(suggestion)}
+                          className="w-full p-3 text-sm text-left bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl border border-border/50 hover:border-primary/50 transition-colors"
+                        >
+                          <Sparkles className="w-3 h-3 inline mr-2 text-primary" />
+                          {suggestion}
+                        </motion.button>
                       ))}
                     </div>
-                  </div>
-                </motion.div>
-              )}
+                  )}
 
-              {/* Suggestions */}
-              {messages.length === 1 && !isTyping && (
-                <div className="space-y-2 pt-4">
-                  <p className="text-xs text-muted-foreground text-center mb-3">
-                    {language === "en" ? "Quick suggestions:" : "Sugerencias rápidas:"}
-                  </p>
-                  {t.suggestions.map((suggestion, idx) => (
-                    <motion.button
-                      key={idx}
-                      whileHover={{ scale: 1.02, x: 5 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => handleSuggestionClick(suggestion)}
-                      className="w-full p-3 text-sm text-left bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl border border-border/50 hover:border-primary/50 transition-colors"
-                    >
-                      <Sparkles className="w-3 h-3 inline mr-2 text-primary" />
-                      {suggestion}
-                    </motion.button>
-                  ))}
+                  <div ref={messagesEndRef} />
                 </div>
-              )}
 
-              <div ref={messagesEndRef} />
-            </div>
-
-            {/* Input Area */}
-            <div className="p-4 border-t border-border bg-background/50">
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyPress={(e) => e.key === "Enter" && handleSend()}
-                  placeholder={t.placeholder}
-                  className="flex-1 px-4 py-3 rounded-full bg-input-background border border-border focus:border-primary focus:outline-none transition-colors"
-                />
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={handleSend}
-                  disabled={!inputValue.trim()}
-                  className="p-3 bg-gradient-to-br from-primary to-accent text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <Send className="w-5 h-5" />
-                </motion.button>
-              </div>
-            </div>
+                {/* Input Area */}
+                <div className="p-4 border-t border-border bg-background/50">
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
+                      onKeyPress={(e) => e.key === "Enter" && handleSend()}
+                      placeholder={t.placeholder}
+                      className="flex-1 px-4 py-3 rounded-full bg-input-background border border-border focus:border-primary focus:outline-none transition-colors"
+                    />
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={handleSend}
+                      disabled={!inputValue.trim()}
+                      className="p-3 bg-gradient-to-br from-primary to-accent text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <Send className="w-5 h-5" />
+                    </motion.button>
+                  </div>
+                </div>
+              </>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
