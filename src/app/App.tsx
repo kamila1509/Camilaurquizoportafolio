@@ -66,7 +66,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen relative w-full min-w-0 max-w-full overflow-x-clip">
       {/* Kawaii cursor effect */}
       {showKawaiiCursor && <KawaiiCursor />}
 

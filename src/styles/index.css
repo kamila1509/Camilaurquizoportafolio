@@ -2,9 +2,16 @@
 @import './tailwind.css';
 @import './theme.css';
 
-/* Smooth scrolling */
+/* Smooth scrolling; avoid horizontal page scroll from decorative overflow */
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+body {
+  overflow-x: clip;
+  max-width: 100%;
 }
 
 /* Custom scrollbar for Kawaii theme */

@@ -43,9 +43,9 @@ export function HeroSection({ language }: HeroSectionProps) {
   const t = content[language];
 
   return (
-    <section className="min-h-screen flex items-center justify-center pt-24 pb-16 px-4">
-      <div className="container mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+    <section className="min-h-screen flex items-center justify-center pt-24 pb-16 px-4 overflow-x-hidden w-full min-w-0 max-w-full">
+      <div className="container mx-auto w-full min-w-0 max-w-full">
+        <div className="grid lg:grid-cols-2 gap-12 items-center w-full min-w-0">
           {/* Left Content */}
           <motion.div
             initial={{ x: -100, opacity: 0 }}
@@ -129,8 +129,8 @@ export function HeroSection({ language }: HeroSectionProps) {
               {t.cta}
             </motion.a>
 
-            {/* Stats */}
-            <div className="flex gap-6 pt-6">
+            {/* Stats: grid + min-w-0 avoids a single row wider than the viewport on narrow phones */}
+            <div className="grid w-full min-w-0 grid-cols-3 gap-2 sm:gap-6 pt-6">
               {[
                 { label: t.experience, icon: "💼" },
                 { label: t.projects, icon: "🌍" },
@@ -141,10 +141,12 @@ export function HeroSection({ language }: HeroSectionProps) {
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.4 + i * 0.1 }}
-                  className="text-center"
+                  className="min-w-0 text-center"
                 >
-                  <div className="text-3xl mb-1">{stat.icon}</div>
-                  <div className="font-bold text-foreground">{stat.label}</div>
+                  <div className="text-2xl sm:text-3xl mb-1">{stat.icon}</div>
+                  <div className="font-bold text-foreground text-xs sm:text-sm md:text-base leading-tight [overflow-wrap:break-word]">
+                    {stat.label}
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -166,7 +168,7 @@ export function HeroSection({ language }: HeroSectionProps) {
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
-              className="relative bg-gradient-to-br from-card via-secondary/20 to-accent/30 rounded-[3rem] p-8 shadow-2xl backdrop-blur-sm border border-border"
+              className="relative bg-gradient-to-br from-card via-secondary/20 to-accent/30 rounded-[3rem] p-4 sm:p-8 shadow-2xl backdrop-blur-sm border border-border w-full min-w-0"
               style={{
                 boxShadow: "var(--shadow-kawaii)",
               }}
