@@ -1,10 +1,12 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X, Send, Sparkles } from "lucide-react";
 import callieImg from "../../imports/callie.png";
 
 interface ChatBotProps {
   language: "en" | "es";
+  /** Syncs Gradio embed with site theme via `?__theme=` (Gradio supported). */
+  theme: "light" | "dark";
 }
 
 interface Message {
@@ -18,11 +20,22 @@ interface Message {
 const GRADIO_CHAT_DEFAULT =
   "https://kamilaw1509-carrer-conversation.hf.space";
 
-export function ChatBot({ language }: ChatBotProps) {
+export function ChatBot({ language, theme }: ChatBotProps) {
   const gradioEmbedUrl = (
     import.meta.env.VITE_GRADIO_CHAT_URL ?? GRADIO_CHAT_DEFAULT
   ).trim();
   const useGradioEmbed = gradioEmbedUrl.length > 0;
+
+  const gradioIframeSrc = useMemo(() => {
+    if (!useGradioEmbed) return "";
+    try {
+      const u = new URL(gradioEmbedUrl);
+      u.searchParams.set("__theme", theme);
+      return u.toString();
+    } catch {
+      return gradioEmbedUrl;
+    }
+  }, [gradioEmbedUrl, useGradioEmbed, theme]);
 
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -113,6 +126,20 @@ export function ChatBot({ language }: ChatBotProps) {
     }
   }, [isOpen, useGradioEmbed]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const mq = window.matchMedia("(max-width: 639px)");
+    const syncOverflow = () => {
+      document.body.style.overflow = mq.matches ? "hidden" : "";
+    };
+    syncOverflow();
+    mq.addEventListener("change", syncOverflow);
+    return () => {
+      mq.removeEventListener("change", syncOverflow);
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
   const getBotResponse = (userMessage: string): string => {
     const msg = userMessage.toLowerCase();
 
@@ -196,7 +223,7 @@ export function ChatBot({ language }: ChatBotProps) {
         whileHover={{ scale: 1.1, y: -5 }}
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-8 left-8 z-50 p-3 bg-white dark:bg-card rounded-full shadow-lg border-4 border-primary"
+        className={`fixed z-[60] p-2.5 sm:p-3 bg-white dark:bg-card rounded-full shadow-lg border-[3px] sm:border-4 border-primary left-[max(0.75rem,env(safe-area-inset-left))] bottom-[max(0.75rem,env(safe-area-inset-bottom))] sm:left-8 sm:bottom-8 ${isOpen ? "max-sm:hidden" : ""}`}
         style={{
           boxShadow: "0 8px 32px rgba(255, 110, 199, 0.4)",
         }}
@@ -204,7 +231,7 @@ export function ChatBot({ language }: ChatBotProps) {
         <motion.img
           src={callieImg}
           alt="Callie"
-          className="w-16 h-16 dark:drop-shadow-[0_0_15px_rgba(255,110,199,0.8)]"
+          className="w-12 h-12 sm:w-16 sm:h-16 dark:drop-shadow-[0_0_15px_rgba(255,110,199,0.8)]"
           animate={{
             y: [0, -5, 0],
           }}
@@ -218,17 +245,22 @@ export function ChatBot({ language }: ChatBotProps) {
       {/* Chat Window */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className={`fixed bottom-28 left-8 z-50 w-[380px] bg-card/95 backdrop-blur-xl rounded-[2rem] border-2 border-border shadow-kawaii overflow-hidden flex flex-col ${
-              useGradioEmbed ? "h-[640px]" : "h-[600px]"
-            }`}
-          >
+            <motion.div
+              key="chat-panel"
+              initial={{ opacity: 0, y: 28 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 28 }}
+              transition={{ type: "spring", stiffness: 320, damping: 32 }}
+              className={`fixed z-[56] flex min-h-0 flex-col overflow-hidden bg-background max-sm:border-0 max-sm:shadow-none
+                max-sm:inset-0 max-sm:h-[100dvh] max-sm:max-h-[100dvh] max-sm:w-full max-sm:rounded-none
+                max-sm:pb-[env(safe-area-inset-bottom,0px)]
+                sm:bg-card/95 sm:backdrop-blur-xl sm:border-2 sm:border-border sm:shadow-kawaii sm:left-8 sm:right-auto sm:bottom-28 sm:w-[380px] sm:rounded-[2rem]
+                ${
+                  useGradioEmbed ? "sm:h-[640px]" : "sm:h-[600px]"
+                }`}
+            >
             {/* Header */}
-            <div className="p-6 bg-gradient-to-r from-primary to-accent text-white relative">
+            <div className="p-4 sm:p-6 shrink-0 bg-gradient-to-r from-primary to-accent text-white relative max-sm:pt-[max(1rem,env(safe-area-inset-top,0px))]">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   {/* Callie Avatar */}
@@ -240,7 +272,7 @@ export function ChatBot({ language }: ChatBotProps) {
                       duration: 2,
                       repeat: Infinity,
                     }}
-                    className="w-12 h-12 bg-white rounded-full flex items-center justify-center p-1"
+                    className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center p-1"
                   >
                     <img
                       src={callieImg}
@@ -248,8 +280,8 @@ export function ChatBot({ language }: ChatBotProps) {
                       className="w-full h-full dark:drop-shadow-[0_0_10px_rgba(255,110,199,0.6)]"
                     />
                   </motion.div>
-                  <div>
-                    <h3 className="font-medium">
+                  <div className="min-w-0 pr-1">
+                    <h3 className="font-medium text-sm sm:text-base truncate">
                       {useGradioEmbed ? t.gradioTitle : t.title}
                     </h3>
                     <div className="flex items-center gap-1 text-xs opacity-90">
@@ -281,9 +313,10 @@ export function ChatBot({ language }: ChatBotProps) {
             {useGradioEmbed ? (
               <div className="flex-1 flex flex-col min-h-0 bg-muted/30">
                 <iframe
-                  src={gradioEmbedUrl}
+                  key={gradioIframeSrc}
+                  src={gradioIframeSrc}
                   title={t.gradioTitle}
-                  className="w-full flex-1 min-h-[520px] border-0 bg-background"
+                  className="w-full flex-1 min-h-0 border-0 bg-background"
                   loading="lazy"
                   allow="clipboard-read; clipboard-write"
                 />

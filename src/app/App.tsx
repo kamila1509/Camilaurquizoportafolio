@@ -71,7 +71,10 @@ export default function App() {
       {showKawaiiCursor && <KawaiiCursor />}
 
       {/* ChatBot */}
-      <ChatBot language={language} />
+      <ChatBot
+        language={language}
+        theme={isDark ? "dark" : "light"}
+      />
 
       {/* Background gradient orbs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">

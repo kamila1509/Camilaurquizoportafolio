@@ -7,10 +7,30 @@ interface Sparkle {
   y: number;
 }
 
+const SM_MIN_WIDTH = "(min-width: 640px)";
+
 export function KawaiiCursor() {
+  const [enabled, setEnabled] = useState(() =>
+    typeof window !== "undefined"
+      ? window.matchMedia(SM_MIN_WIDTH).matches
+      : false
+  );
   const [sparkles, setSparkles] = useState<Sparkle[]>([]);
 
   useEffect(() => {
+    const mq = window.matchMedia(SM_MIN_WIDTH);
+    const sync = () => setEnabled(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  useEffect(() => {
+    if (!enabled) {
+      setSparkles([]);
+      return;
+    }
+
     let sparkleId = 0;
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -36,7 +56,11 @@ export function KawaiiCursor() {
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, []);
+  }, [enabled]);
+
+  if (!enabled) {
+    return null;
+  }
 
   return (
     <div className="fixed inset-0 pointer-events-none z-50">
