@@ -67,12 +67,12 @@ export function HeroSection({ language }: HeroSectionProps) {
               <h1 className="text-5xl lg:text-7xl font-bold mb-4 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
                 {t.name}
               </h1>
-              {/* Callie with React sticker */}
+              {/* Callie with React sticker — hidden on small screens to avoid overlap/clutter */}
               <motion.div
                 initial={{ scale: 0, rotate: -180 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
-                className="absolute -top-8 -right-12 lg:-right-16"
+                className="absolute -top-8 -right-12 lg:-right-16 hidden lg:block"
               >
                 <motion.div
                   animate={{
