@@ -7,6 +7,18 @@
       <link rel="icon" type="image/png" href="/favicon.png" />
       <link rel="apple-touch-icon" href="/favicon.png" />
       <title>Camila Urquizo - Portfolio</title>
+      <script>
+        (function () {
+          try {
+            var k = "camila-portfolio-theme";
+            var t = localStorage.getItem(k);
+            var root = document.documentElement;
+            var theme = t === "light" ? "light" : "dark";
+            root.setAttribute("data-theme", theme);
+            root.style.setProperty("color-scheme", theme);
+          } catch (e) {}
+        })();
+      </script>
       <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
     </head>
 

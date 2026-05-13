@@ -46,7 +46,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.dark .glass {
+html[data-theme="dark"] .glass {
   background: rgba(45, 27, 46, 0.3);
   border: 1px solid rgba(199, 125, 255, 0.2);
 }

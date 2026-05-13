@@ -3,11 +3,25 @@
   <html lang="en">
     <head>
       <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Landing Page para Portafolio</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+      <link rel="icon" type="image/png" href="/favicon.png" />
+      <link rel="apple-touch-icon" href="/favicon.png" />
+      <title>Camila Urquizo - Portfolio</title>
+      <script>
+        (function () {
+          try {
+            var k = "camila-portfolio-theme";
+            var t = localStorage.getItem(k);
+            var root = document.documentElement;
+            var theme = t === "light" ? "light" : "dark";
+            root.setAttribute("data-theme", theme);
+            root.style.setProperty("color-scheme", theme);
+          } catch (e) {}
+        })();
+      </script>
       <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
-      <script type="module" crossorigin src="/assets/index-DOCCvGJa.js"></script>
-      <link rel="stylesheet" crossorigin href="/assets/index-9DrqkH0E.css">
+      <script type="module" crossorigin src="/assets/index-ByLz2Ytw.js"></script>
+      <link rel="stylesheet" crossorigin href="/assets/index-CN3Bb6NA.css">
     </head>
 
     <body>

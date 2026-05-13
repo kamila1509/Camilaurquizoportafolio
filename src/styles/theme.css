@@ -1,4 +1,4 @@
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is([data-theme="dark"] *, [data-theme="dark"]));
 
 :root {
   --font-size: 16px;
@@ -52,7 +52,7 @@
   --sidebar-ring: #FF89C0;
 }
 
-.dark {
+html[data-theme="dark"] {
   /* Deep Plum & Midnight Pink - Dark Mode */
   --background: #1A0B1C;
   --foreground: #F5E6F0;

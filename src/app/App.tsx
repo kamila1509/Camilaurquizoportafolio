@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { Header } from "./components/Header";
 import { HeroSection } from "./components/HeroSection";
 import { AboutMe } from "./components/AboutMe";
@@ -9,17 +9,38 @@ import { Footer } from "./components/Footer";
 import { KawaiiCursor } from "./components/KawaiiCursor";
 import { ChatBot } from "./components/ChatBot";
 import { KawaiiLoader } from "./components/KawaiiLoader";
+import {
+  SafariThemeSplash,
+  type SafariThemeSwitchTarget,
+} from "./components/SafariThemeSplash";
+import { isSafariBrowser } from "./lib/safari";
+import {
+  applyDocumentTheme,
+  getStoredIsDark,
+} from "./lib/theme-initialize";
 import { motion } from "motion/react";
 
+const SAFARI_THEME_SWITCH_MS = 700;
+const KAWAII_DURATION_MS = 2000;
+
+type LoadPhase = "kawaii" | "ready";
+
 export default function App() {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(() => getStoredIsDark());
   const [language, setLanguage] = useState<"en" | "es">("en");
   const [showKawaiiCursor, setShowKawaiiCursor] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
+  const [phase, setPhase] = useState<LoadPhase>("kawaii");
+  const [safariThemeSwitch, setSafariThemeSwitch] =
+    useState<SafariThemeSwitchTarget | null>(null);
+  const safariInitEndRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Toggle dark mode
+  // Toggle dark mode: Safari keeps an overlay while we re-apply the theme and wait for paint
   const toggleDarkMode = () => {
-    setIsDark(!isDark);
+    const next = !isDark;
+    setIsDark(next);
+    if (isSafariBrowser()) {
+      setSafariThemeSwitch(next ? "dark" : "light");
+    }
   };
 
   // Toggle language
@@ -27,22 +48,69 @@ export default function App() {
     setLanguage(language === "en" ? "es" : "en");
   };
 
-  // Apply dark mode class to document
-  useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+  useLayoutEffect(() => {
+    applyDocumentTheme(isDark);
   }, [isDark]);
 
-  // Initial loading
+  // Safari: after toggle, re-apply + double rAF so layout/paint catch up, then remove overlay
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
+    if (safariThemeSwitch == null || !isSafariBrowser()) {
+      return;
+    }
+    let cancelled = false;
+    const t0 = performance.now();
+    applyDocumentTheme(isDark);
+    void document.documentElement.offsetHeight;
+    let raf1 = 0;
+    let raf2 = 0;
+    raf1 = requestAnimationFrame(() => {
+      if (cancelled) {
+        return;
+      }
+      raf2 = requestAnimationFrame(() => {
+        if (cancelled) {
+          return;
+        }
+        applyDocumentTheme(isDark);
+        void document.documentElement.offsetHeight;
+        // Flush stale GPU compositor tiles (backdrop-filter layers cache the
+        // pre-toggle pixels; toggling display synchronously forces a full rebuild
+        // before the overlay lifts — the user never sees this because the
+        // SafariThemeSplash covers the screen and no intermediate paint occurs).
+        document.body.style.display = "none";
+        void document.body.offsetHeight;
+        document.body.style.display = "";
+        const left = Math.max(0, SAFARI_THEME_SWITCH_MS - (performance.now() - t0));
+        safariInitEndRef.current = window.setTimeout(() => {
+          safariInitEndRef.current = null;
+          if (!cancelled) {
+            setSafariThemeSwitch(null);
+          }
+        }, left);
+      });
+    });
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(raf1);
+      if (raf2) {
+        cancelAnimationFrame(raf2);
+      }
+      if (safariInitEndRef.current) {
+        clearTimeout(safariInitEndRef.current);
+        safariInitEndRef.current = null;
+      }
+    };
+  }, [safariThemeSwitch, isDark]);
+
+  useEffect(() => {
+    if (phase === "kawaii") {
+      const t = window.setTimeout(() => {
+        setPhase("ready");
+      }, KAWAII_DURATION_MS);
+      return () => clearTimeout(t);
+    }
+    return;
+  }, [phase]);
 
   // Scroll to top button
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -60,13 +128,18 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Show loader on initial load
-  if (isLoading) {
+  if (phase === "kawaii") {
     return <KawaiiLoader language={language} />;
   }
 
   return (
     <div className="min-h-screen relative w-full min-w-0 max-w-full overflow-x-clip">
+      {safariThemeSwitch && (
+        <SafariThemeSplash
+          language={language}
+          target={safariThemeSwitch}
+        />
+      )}
       {/* Kawaii cursor effect */}
       {showKawaiiCursor && <KawaiiCursor />}
 
